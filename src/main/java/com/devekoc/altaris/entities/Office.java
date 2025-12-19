@@ -1,0 +1,33 @@
+package com.devekoc.altaris.entities;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "bureau")
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
+public class Office {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(name = "dateCreation")
+    @NotNull(message = "La date de création ne doit pas être vide !")
+    private LocalDate creationDate;
+
+    @Column(name = "actif")
+    private String active;
+
+    @Column(columnDefinition = "TEXT")
+    @NotBlank(message = "La description ne doit pas être vide !")
+    private String description;
+}
