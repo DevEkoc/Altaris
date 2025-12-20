@@ -32,4 +32,8 @@ public class Parish extends EcclesiasticalUnit{
     @OneToMany(mappedBy = "parish")
     @JsonIgnore
     private List<Servant> servants;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idZone")
+    private Zone zone;
 }

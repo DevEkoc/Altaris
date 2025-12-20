@@ -29,4 +29,8 @@ public class Diocese extends EcclesiasticalUnit{
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Le type du diocèse ne doit pas être vide !")
     private DioceseType type;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idProvince")
+    private Province province;
 }

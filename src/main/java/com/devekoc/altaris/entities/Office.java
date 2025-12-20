@@ -25,7 +25,7 @@ public class Office {
     private LocalDate creationDate;
 
     @Column(name = "actif")
-    private String active;
+    private boolean active;
 
     @Column(columnDefinition = "TEXT")
     @NotBlank(message = "La description ne doit pas être vide !")

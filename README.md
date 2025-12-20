@@ -1,0 +1,2 @@
+# PROJET ALTARIS
+**Altaris** est une application développée en ``Java`` avec le framework ``Spring Boot``, et qui permet de gérer de façon **centralisée** et **sécurisée** les Servants d'Autel du Cameroun, aussi bien au niveau paroissial, zonal, diocésain, provincial que national.

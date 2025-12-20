@@ -3,6 +3,7 @@ package com.devekoc.altaris.entities;
 import com.devekoc.altaris.enumerations.LocalityType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,9 +27,10 @@ public class Locality {
 
     @Column(name = "typeLocalite")
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Le type de la localité ne doit pas être vide !")
     private LocalityType localityType;
 
-    @ManyToOne
-    @JoinColumn(name = "idUnite")
-    private EcclesiasticalUnit ecclesiasticalUnit;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "idUnite")
+//    private EcclesiasticalUnit ecclesiasticalUnit;
 }

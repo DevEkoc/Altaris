@@ -28,11 +28,11 @@ public class Assignment {
     @NotBlank(message = "La description ne doit pas être vide !")
     private String missions;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Le servant ne doit pas être vide !")
     private Servant servant;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Le bureau ne doit pas être vide !")
     private Office office;
 }

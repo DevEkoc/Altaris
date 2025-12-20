@@ -41,7 +41,7 @@ public class Servant {
     private LocalDate birthDate;
 
     @Column(name = "sexe")
-    @NotBlank(message = "Le sexe ne doit pas être vide !")
+    @NotNull(message = "Le sexe ne doit pas être vide !")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
