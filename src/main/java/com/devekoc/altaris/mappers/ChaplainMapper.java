@@ -15,6 +15,7 @@ public final class ChaplainMapper {
     }
 
     public static ChaplainListDTO toListDTO (Chaplain chaplain) {
+        if (chaplain == null) return null;
         return new ChaplainListDTO(
             chaplain.getId(),
             chaplain.getName(),

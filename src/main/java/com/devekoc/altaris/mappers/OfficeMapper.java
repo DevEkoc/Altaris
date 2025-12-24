@@ -12,6 +12,7 @@ public class OfficeMapper {
         return office;
     }
     public static OfficeListDTO toListDTO (Office office) {
+        if (office == null) return null;
         return new OfficeListDTO (
                 office.getId(),
                 office.getCreationDate(),

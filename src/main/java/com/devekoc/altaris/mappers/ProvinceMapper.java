@@ -5,8 +5,6 @@ import com.devekoc.altaris.entities.Chaplain;
 import com.devekoc.altaris.entities.Office;
 import com.devekoc.altaris.entities.Province;
 
-import java.util.List;
-
 public final class ProvinceMapper {
     public static Province fromCreateDTO (ProvinceCreateDTO dto, Province province, Chaplain chaplain, Office office, String imagePath) {
         province.setName(dto.name());
@@ -21,7 +19,7 @@ public final class ProvinceMapper {
         return province;
     }
 
-    public static ProvinceListDTO toProvinceListDTO (Province province, ChaplainListDTO chaplain, OfficeListDTO office) {
+    public static ProvinceListDTO toListDTO(Province province) {
         return new ProvinceListDTO(
                 province.getId(),
                 province.getName(),
@@ -31,8 +29,8 @@ public final class ProvinceMapper {
                 province.getHeadquarter(),
                 province.getArchbishop(),
                 province.getLocalite(),
-                chaplain,
-                office
+                ChaplainMapper.toListDTO(province.getChaplain()),
+                OfficeMapper.toListDTO(province.getOffice())
         );
     }
 }
