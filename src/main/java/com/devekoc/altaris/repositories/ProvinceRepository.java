@@ -9,8 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ProvinceRepository extends JpaRepository< @NonNull Province, @NonNull Integer>, JpaSpecificationExecutor<@NonNull Province> {
+public interface ProvinceRepository extends
+        JpaRepository< @NonNull Province, @NonNull Integer>,
+        JpaSpecificationExecutor<@NonNull Province>,
+        EcclesiasticalUnitRepository<@NonNull Province, Integer>
+{
     boolean existsByName(String name);
 
-    Optional<Province> findByName(String name);
 }

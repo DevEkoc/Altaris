@@ -5,17 +5,11 @@ import com.devekoc.altaris.entities.Chaplain;
 import com.devekoc.altaris.entities.Office;
 import com.devekoc.altaris.entities.Province;
 
-public final class ProvinceMapper {
+public final class ProvinceMapper extends EcclesiasticalUnitMapper {
     public static Province fromCreateDTO (ProvinceCreateDTO dto, Province province, Chaplain chaplain, Office office, String imagePath) {
-        province.setName(dto.name());
-        province.setDescription(dto.description());
-        province.setSaintPatron(dto.saintPatron());
-        province.setImage(imagePath);
-        province.setLocalite(dto.locality());
-        province.setChaplain(chaplain);
-        province.setOffice(office);
-        province.setHeadquarter(dto.headquarter());
-        province.setArchbishop(dto.archbishop());
+        mapCommonFields(dto, province, chaplain, office, imagePath);
+        province.setHeadquarter(dto.getHeadquarter());
+        province.setArchbishop(dto.getArchbishop());
         return province;
     }
 
@@ -28,7 +22,7 @@ public final class ProvinceMapper {
                 province.getImage(),
                 province.getHeadquarter(),
                 province.getArchbishop(),
-                province.getLocalite(),
+                province.getLocality(),
                 ChaplainMapper.toListDTO(province.getChaplain()),
                 OfficeMapper.toListDTO(province.getOffice())
         );

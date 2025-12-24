@@ -5,7 +5,6 @@ import com.devekoc.altaris.dto.ProvinceListDTO;
 import com.devekoc.altaris.entities.Chaplain;
 import com.devekoc.altaris.entities.Office;
 import com.devekoc.altaris.entities.Province;
-import com.devekoc.altaris.enumerations.PriestlyRank;
 import com.devekoc.altaris.repositories.ChaplainRepository;
 import com.devekoc.altaris.repositories.OfficeRepository;
 import com.devekoc.altaris.repositories.ProvinceRepository;
@@ -96,15 +95,16 @@ class ProvinceServiceTest {
                 "Province A",
                 "Description",
                 "Saint",
-                "Yaoundé",
-                "Mgr Test",
                 image,
                 "Centre",
                 1,
-                1
-        );
+                1,
+                "Yaoundé",
+                "Mgr Test"
 
-        when(provinceRepository.existsByName(dto.name())).thenReturn(false);
+                );
+
+        when(provinceRepository.existsByName(dto.getName())).thenReturn(false);
         when(chaplainRepository.findById(1)).thenReturn(Optional.of(chaplain));
         when(officeRepository.findById(1)).thenReturn(Optional.of(office));
         when(mediaService.saveImage(image, "provinces")).thenReturn("image.png");
@@ -124,7 +124,7 @@ class ProvinceServiceTest {
     void create_shouldFail_whenNameExists() {
         ProvinceCreateDTO dto = mock(ProvinceCreateDTO.class);
 
-        when(dto.name()).thenReturn("Province A");
+        when(dto.getName()).thenReturn("Province A");
         when(provinceRepository.existsByName("Province A")).thenReturn(true);
 
         assertThatThrownBy(() -> provinceService.create(dto))
@@ -135,8 +135,8 @@ class ProvinceServiceTest {
     void create_shouldFail_whenChaplainNotFound() {
         ProvinceCreateDTO dto = mock(ProvinceCreateDTO.class);
 
-        when(dto.name()).thenReturn("Province A");
-        when(dto.chaplainId()).thenReturn(1);
+        when(dto.getName()).thenReturn("Province A");
+        when(dto.getChaplainId()).thenReturn(1);
         when(provinceRepository.existsByName(any())).thenReturn(false);
         when(chaplainRepository.findById(1)).thenReturn(Optional.empty());
 
@@ -184,10 +184,10 @@ class ProvinceServiceTest {
     void update_shouldReplaceImage() throws IOException {
         ProvinceCreateDTO dto = mock(ProvinceCreateDTO.class);
 
-        when(dto.name()).thenReturn("Province A");
-        when(dto.image()).thenReturn(image);
-        when(dto.chaplainId()).thenReturn(chaplain.getId());
-        when(dto.officeId()).thenReturn(office.getId());
+        when(dto.getName()).thenReturn("Province A");
+        when(dto.getImage()).thenReturn(image);
+        when(dto.getChaplainId()).thenReturn(chaplain.getId());
+        lenient().when(dto.getOfficeId()).thenReturn(office.getId());
 
         when(provinceRepository.findById(1))
                 .thenReturn(Optional.of(province));
@@ -209,10 +209,10 @@ class ProvinceServiceTest {
     void update_shouldKeepOldImage() throws IOException {
         ProvinceCreateDTO dto = mock(ProvinceCreateDTO.class);
 
-        when(dto.name()).thenReturn("Province A");
-        when(dto.image()).thenReturn(null);
-        when(dto.chaplainId()).thenReturn(chaplain.getId());
-        when(dto.officeId()).thenReturn(office.getId());
+        when(dto.getName()).thenReturn("Province A");
+        when(dto.getImage()).thenReturn(null);
+        when(dto.getChaplainId()).thenReturn(chaplain.getId());
+        lenient().when(dto.getOfficeId()).thenReturn(office.getId());
 
         when(provinceRepository.findById(1))
                 .thenReturn(Optional.of(province));

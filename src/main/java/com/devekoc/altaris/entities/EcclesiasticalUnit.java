@@ -31,7 +31,7 @@ public abstract class EcclesiasticalUnit {
     protected String image;
 
     @Column
-    private String localite;
+    private String locality;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aumonier")
