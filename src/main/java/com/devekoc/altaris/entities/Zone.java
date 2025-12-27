@@ -1,5 +1,6 @@
 package com.devekoc.altaris.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -7,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "zone")
@@ -22,4 +25,8 @@ public class Zone extends EcclesiasticalUnit{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idDiocese")
     private Diocese diocese;
+
+    @OneToMany(mappedBy = "zone", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Parish> parishList;
 }

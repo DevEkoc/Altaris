@@ -29,11 +29,11 @@ public class Parish extends EcclesiasticalUnit{
     @NotNull(message = "Le type de la Paroisse ne doit pas être vide !")
     private ParishType type;
 
-    @OneToMany(mappedBy = "parish")
-    @JsonIgnore
-    private List<Servant> servants;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idZone")
     private Zone zone;
+
+    @OneToMany(mappedBy = "parish")
+    @JsonIgnore
+    private List<Servant> servants;
 }

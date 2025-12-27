@@ -1,14 +1,15 @@
 package com.devekoc.altaris.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "province")
@@ -26,5 +27,7 @@ public class Province extends EcclesiasticalUnit {
     @NotBlank(message = "Le nom de l'Archevêque de la Province ne doit pas être vide !")
     private String archbishop;
 
-
+    @OneToMany(mappedBy = "province", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Diocese> dioceseList;
 }

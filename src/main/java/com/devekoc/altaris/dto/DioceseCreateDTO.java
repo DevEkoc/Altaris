@@ -18,10 +18,10 @@ public class DioceseCreateDTO extends EcclesiasticalUnitCreateDTO {
     private final String retiredBishop;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "Le type du diocèse ne doit pas être vide !")
+    @NotNull(message = "Le type du Diocèse ne doit pas être vide !")
     private final DioceseType type;
 
-    @NotNull(message = "L'ID de la province ne doit pas être null !")
+    @NotNull(message = "L'ID de la Province ne doit pas être null !")
     private final Integer provinceId;
 
     public DioceseCreateDTO (

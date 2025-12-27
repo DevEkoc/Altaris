@@ -11,6 +11,7 @@ import lombok.*;
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public abstract class EcclesiasticalUnit {
+    @Column(name = "idUnite")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;

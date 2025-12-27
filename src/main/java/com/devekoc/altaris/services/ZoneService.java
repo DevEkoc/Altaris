@@ -1,16 +1,17 @@
 package com.devekoc.altaris.services;
 
-import com.devekoc.altaris.dto.ProvinceCreateDTO;
-import com.devekoc.altaris.dto.ProvinceListDTO;
+import com.devekoc.altaris.dto.ZoneCreateDTO;
+import com.devekoc.altaris.dto.ZoneListDTO;
 import com.devekoc.altaris.entities.Chaplain;
+import com.devekoc.altaris.entities.Zone;
 import com.devekoc.altaris.entities.Office;
-import com.devekoc.altaris.entities.Province;
-import com.devekoc.altaris.mappers.ProvinceMapper;
+import com.devekoc.altaris.entities.Diocese;
+import com.devekoc.altaris.mappers.ZoneMapper;
 import com.devekoc.altaris.medias.MediaService;
 import com.devekoc.altaris.repositories.ChaplainRepository;
+import com.devekoc.altaris.repositories.ZoneRepository;
 import com.devekoc.altaris.repositories.OfficeRepository;
-import com.devekoc.altaris.repositories.ProvinceRepository;
-import com.devekoc.altaris.specifications.ProvinceSpecification;
+import com.devekoc.altaris.specifications.ZoneSpecification;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,69 +24,68 @@ import java.util.Objects;
 
 @Service
 @Slf4j
-public class ProvinceService extends EcclesiasticalUnitService<Province> {
-    private final ProvinceRepository provinceRepository;
+public class ZoneService extends EcclesiasticalUnitService<Zone> {
+    private final ZoneRepository zoneRepository;
+    private final DioceseService dioceseService;
 
-    public ProvinceService(
-            ProvinceRepository provinceRepository,
+    public ZoneService(
+            ZoneRepository zoneRepository,
+            DioceseService dioceseService,
             ChaplainRepository chaplainRepository,
             OfficeRepository officeRepository,
             MediaService mediaService
     ) {
-        super(provinceRepository, mediaService, chaplainRepository, officeRepository);
-        this.provinceRepository = provinceRepository;
+        super(zoneRepository, mediaService, chaplainRepository, officeRepository);
+        this.zoneRepository = zoneRepository;
+        this.dioceseService = dioceseService;
     }
 
     @Override
     protected String entityLabel() {
-        return Province.class.getSimpleName().toUpperCase();
+        return Zone.class.getSimpleName().toUpperCase();
     }
 
     @Override
     protected String imageSubdirectory() {
-        return "provinces";
+        return "zones";
     }
 
-
-
-    public ProvinceListDTO create(ProvinceCreateDTO dto) throws IOException {
+    public ZoneListDTO create(ZoneCreateDTO dto) throws IOException {
         validateUniqueName(dto.getName());
         Chaplain chaplain = getChaplainOrThrow(dto.getChaplainId());
         Office office = getOfficeOrThrow(dto.getOfficeId());
         String imagePath = mediaService.saveImage(dto.getImage(), imageSubdirectory());
+        Diocese diocese = dioceseService.findByIdOrThrow(dto.getDioceseId());
 
-        Province province = ProvinceMapper.fromCreateDTO(dto, new Province(), chaplain, office, imagePath);
-        Province saved = provinceRepository.save(province);
+        Zone zone = ZoneMapper.fromCreateDTO(dto, new Zone(), diocese, chaplain, office, imagePath);
+        Zone saved = zoneRepository.save(zone);
 
         log.info("{} : {} (ID : {}) créée avec succès !", entityLabel(), saved.getName(), saved.getId());
-        return ProvinceMapper.toListDTO(saved);
+        return ZoneMapper.toListDTO(saved);
     }
 
-    public ProvinceListDTO findById(int id) {
-        Province found = findByIdOrThrow(id);
-        return ProvinceMapper.toListDTO(found);
+    public ZoneListDTO findById(int id) {
+        Zone found = findByIdOrThrow(id);
+        return ZoneMapper.toListDTO(found);
     }
 
-    public List<ProvinceListDTO> listAll() {
-        return provinceRepository.findAll()
+    public List<ZoneListDTO> find(String query) {
+        Specification<@NonNull Zone> spec = ZoneSpecification.globalSearch(query);
+        return zoneRepository.findAll(spec)
                 .stream()
-                .map(ProvinceMapper::toListDTO)
+                .map(ZoneMapper::toListDTO)
                 .toList();
     }
 
-    public List<ProvinceListDTO> find(String query) {
-        Specification<@NonNull Province> spec = ProvinceSpecification.globalSearch(query);
-        return provinceRepository.findAll(spec)
+    public List<ZoneListDTO> listAll() {
+        return zoneRepository.findAll()
                 .stream()
-                .map(
-                        ProvinceMapper::toListDTO
-                )
+                .map(ZoneMapper::toListDTO)
                 .toList();
     }
 
-    public ProvinceListDTO update(int id, ProvinceCreateDTO dto) throws IOException {
-        Province existing = findByIdOrThrow(id);
-
+    public ZoneListDTO update(int id, ZoneCreateDTO dto) throws IOException {
+        Zone existing = findByIdOrThrow(id);
         if (!existing.getName().equals(dto.getName())) validateUniqueName(dto.getName());
 
         String oldImagePath = existing.getImage();
@@ -97,26 +97,29 @@ public class ProvinceService extends EcclesiasticalUnitService<Province> {
         Office office = (existing.getOffice() == null || !existing.getOffice().getId().equals(dto.getChaplainId()))
                 ? getOfficeOrThrow(dto.getOfficeId())
                 : existing.getOffice();
+        Diocese diocese = (!existing.getDiocese().getId().equals(dto.getDioceseId()))
+                ? dioceseService.findByIdOrThrow(dto.getDioceseId())
+                : existing.getDiocese();
 
-        ProvinceMapper.fromCreateDTO(dto, existing, chaplain, office, newImagePath);
-        Province saved = provinceRepository.save(existing);
+        Zone zone = ZoneMapper.fromCreateDTO(dto, existing, diocese, chaplain, office, newImagePath);
+        Zone saved = zoneRepository.save(zone);
 
         if (!Objects.equals(newImagePath, oldImagePath)) {
             mediaService.deleteImage(oldImagePath);
         }
 
         log.info("{} '{}' (ID: {}) mise à jour avec succès.", entityLabel(), saved.getName(), id);
-        return ProvinceMapper.toListDTO(saved);
+
+        return ZoneMapper.toListDTO(saved);
     }
 
-
     public void delete(int id) {
-        Province found = findByIdOrThrow(id);
-        if (!found.getDioceseList().isEmpty()) {
-            throw new DataIntegrityViolationException("Impossible de supprimer une Province contenant des Diocèses !");
+        Zone found = findByIdOrThrow(id);
+        if (!found.getParishList().isEmpty()) {
+            throw new DataIntegrityViolationException("Impossible de supprimer une Zone contenant des Paroisses !");
         }
         mediaService.deleteImage(found.getImage());
-        provinceRepository.delete(found);
+        zoneRepository.delete(found);
         log.info("{} '{}' (ID: {}) supprimée avec succès.", entityLabel(), found.getName(), found.getId());
     }
 }

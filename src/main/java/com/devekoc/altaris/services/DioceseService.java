@@ -14,6 +14,7 @@ import com.devekoc.altaris.repositories.OfficeRepository;
 import com.devekoc.altaris.specifications.DioceseSpecification;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -114,6 +115,11 @@ public class DioceseService extends EcclesiasticalUnitService<Diocese> {
 
     public void delete(int id) {
         Diocese found = findByIdOrThrow(id);
+        if (!found.getZoneList().isEmpty()) {
+            throw new DataIntegrityViolationException("Impossible de supprimer un Diocèse contenant des Zones !");
+        }
+        mediaService.deleteImage(found.getImage());
         dioceseRepository.delete(found);
+        log.info("{} '{}' (ID: {}) supprimé avec succès.", entityLabel(), found.getName(), found.getId());
     }
 }
