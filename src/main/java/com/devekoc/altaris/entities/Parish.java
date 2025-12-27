@@ -35,5 +35,5 @@ public class Parish extends EcclesiasticalUnit{
 
     @OneToMany(mappedBy = "parish")
     @JsonIgnore
-    private List<Servant> servants;
+    private List<Servant> servantList;
 }

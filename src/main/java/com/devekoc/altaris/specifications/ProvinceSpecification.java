@@ -21,17 +21,21 @@ public class ProvinceSpecification {
 
 
             return cb.or(
+                    // Les champs communs aux Unités Ecclésiastiques
                     cb.like(cb.lower(root.get("name")), pattern),
                     cb.like(cb.lower(root.get("description")), pattern),
                     cb.like(cb.lower(root.get("saintPatron")), pattern),
                     cb.like(cb.lower(root.get("locality")), pattern),
 
+                    // Les champs propres à la Province
                     cb.like(cb.lower(root.get("headquarter")), pattern),
                     cb.like(cb.lower(root.get("archbishop")), pattern),
 
+                    // Les champs de l'Aumônier
                     cb.like(cb.lower(chaplainJoin.get("name")), pattern),
                     cb.like(cb.lower(chaplainJoin.get("surname")), pattern),
 
+                    // Les champs du Bureau
                     cb.like(cb.lower(officeJoin.get("description")), pattern)
             );
         };

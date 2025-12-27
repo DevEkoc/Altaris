@@ -1,13 +1,13 @@
 package com.devekoc.altaris.specifications;
 
-import com.devekoc.altaris.entities.Diocese;
+import com.devekoc.altaris.entities.Parish;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.JoinType;
 import lombok.NonNull;
 import org.springframework.data.jpa.domain.Specification;
 
-public class DioceseSpecification {
-    public static Specification<@NonNull Diocese> globalSearch(String text) {
+public class ParishSpecification {
+    public static Specification<@NonNull Parish> globalSearch(String text) {
         return (root, query, cb) -> {
             if (text == null || text.isEmpty()) {
                 return cb.conjunction();
@@ -17,7 +17,7 @@ public class DioceseSpecification {
 
             Join<Object, Object> chaplainJoin = root.join("chaplain", JoinType.LEFT);
             Join<Object, Object> officeJoin = root.join("office", JoinType.LEFT);
-            Join<Object, Object> provinceJoin = root.join("province", JoinType.LEFT);
+            Join<Object, Object> zoneJoin = root.join("zone", JoinType.LEFT);
 
 
             return cb.or(
@@ -27,13 +27,12 @@ public class DioceseSpecification {
                     cb.like(cb.lower(root.get("saintPatron")), pattern),
                     cb.like(cb.lower(root.get("locality")), pattern),
 
-                    // Les champs propres au Diocèse
-                    cb.like(cb.lower(root.get("bishop")), pattern),
-                    cb.like(cb.lower(root.get("retiredBishop")), pattern),
+                    // Les champs propres à la Paroisse
+                    cb.like(cb.lower(root.get("priest")), pattern),
                     cb.like(cb.lower(root.get("type")), pattern),
 
-                    // Les champs de la Province à laquelle est relié le Diocèse
-                    cb.like(cb.lower(provinceJoin.get("name")), pattern),
+                    // Les champs de la Zone à laquelle est reliée la Paroisse
+                    cb.like(cb.lower(zoneJoin.get("name")), pattern),
 
                     // Les champs de l'Aumônier
                     cb.like(cb.lower(chaplainJoin.get("name")), pattern),
