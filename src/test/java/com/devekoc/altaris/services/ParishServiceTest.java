@@ -168,8 +168,6 @@ class ParishServiceTest {
     @Test
     void update_shouldSucceed_withoutImageChange() throws IOException {
         when(parishRepository.findById(1)).thenReturn(Optional.of(parish));
-        when(parishRepository.existsByName(anyString())).thenReturn(false);
-        when(zoneService.findByIdOrThrow(1)).thenReturn(zone);
         when(parishRepository.save(any())).thenReturn(parish);
 
         ParishListDTO result = parishService.update(1, dto);

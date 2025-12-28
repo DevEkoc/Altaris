@@ -30,12 +30,12 @@ public class ParishCreateDTO extends EcclesiasticalUnitCreateDTO {
             Integer chaplainId,
             Integer officeId,
             String priest,
-            ParishType parishType,
+            ParishType type,
             Integer zoneId)
     {
         super(name,  description, saintPatron, locality, image, chaplainId, officeId);
         this.priest = priest;
-        this.type = parishType;
+        this.type = type;
         this.zoneId = zoneId;
     }
 
