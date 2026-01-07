@@ -2,6 +2,7 @@ package com.devekoc.altaris.dto;
 
 import com.devekoc.altaris.enumerations.Gender;
 import com.devekoc.altaris.enumerations.ServantGrade;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 
@@ -12,9 +13,9 @@ public record ServantListDTO(
         String serialNumber,
         String name,
         String surname,
-        LocalDate birthDate,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")LocalDate birthDate,
         @Enumerated(EnumType.STRING)Gender gender,
-        LocalDate entryDate,
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")LocalDate entryDate,
         @Enumerated(EnumType.STRING)ServantGrade grade,
         String phone,
         String image,

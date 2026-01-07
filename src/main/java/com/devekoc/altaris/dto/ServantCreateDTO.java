@@ -3,6 +3,7 @@ package com.devekoc.altaris.dto;
 import com.devekoc.altaris.enumerations.Gender;
 import com.devekoc.altaris.enumerations.ServantGrade;
 import com.devekoc.altaris.validation.ValidCustomPhoneNumber;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,12 +21,14 @@ public record ServantCreateDTO(
         String surname,
 
         @NotNull(message = "La date de naissance ne doit pas être vide !")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
         LocalDate birthDate,
 
         @NotNull(message = "Le sexe ne doit pas être vide !")
         @Enumerated(EnumType.STRING)
         Gender gender,
 
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
         LocalDate entryDate,
 
         @Enumerated(EnumType.STRING)

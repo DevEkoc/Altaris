@@ -1,5 +1,6 @@
 package com.devekoc.altaris.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -7,23 +8,31 @@ import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 @Getter @Setter
+@Schema(description = "Base schema for creating any ecclesiastical unit")
 public abstract class EcclesiasticalUnitCreateDTO{
     @NotBlank(message = "Le nom de l'unité ne doit pas être vide !")
     @Size(min = 1, max = 50, message = "Le nom doit contenir entre 1 et 50 caractères.")
+    @Schema(example = "Province of Yaoundé", description = "Unique name of the unit")
     private String name;
 
     @NotBlank(message = "La description ne doit pas être vide !")
+    @Schema(example = "Comprising 7 dioceses, this province extends across the Center and South regions of Cameroon, covering all of their departments except Nyong-Ekélé.", description = "Detailed description of the unit")
     private String description;
 
     @Size(min = 1, max = 50, message = "Le nom du Saint Patron doit contenir entre 1 et 50 caractères.")
+    @Schema(example = "Saint Therese", description = "Patron saint of the unit")
     private String saintPatron;
 
+    @Schema(description = "Cover image file (jpg, jpeg, png, webp)")
     private MultipartFile image;
 
+    @Schema(example = "Yaoundé", description = "Geographical location of the unit")
     private String locality;
 
+    @Schema(example = "1", description = "ID of the assigned chaplain")
     private Integer chaplainId;
 
+    @Schema(example = "2", description = "ID of the Altar Servants' Office that administers the unit")
     private Integer officeId;
 
     protected EcclesiasticalUnitCreateDTO(
