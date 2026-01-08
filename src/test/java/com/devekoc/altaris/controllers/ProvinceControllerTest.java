@@ -1,6 +1,6 @@
 package com.devekoc.altaris.controllers;
 
-import com.devekoc.altaris.dto.*;
+import com.devekoc.altaris.dto.ProvinceListDTO;
 import com.devekoc.altaris.services.ProvinceService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProvinceController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -56,7 +57,7 @@ class ProvinceControllerTest {
         mockMvc.perform(multipart("/provinces")
                         .file(image)
                         .param("name", "Centre")
-                        .param("description", "Description détaillée")
+                        .param("description", "Description  détaillée")
                         .param("headquarter", "Yaoundé")
                         .param("archbishop", "Mgr X")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
