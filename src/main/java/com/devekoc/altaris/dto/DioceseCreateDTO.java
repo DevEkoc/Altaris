@@ -12,12 +12,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 @Schema(description = "Data required to create or update a Diocese")
 public class DioceseCreateDTO extends EcclesiasticalUnitCreateDTO {
-    @Size(min = 1, max = 50, message = "Le nom de l'Évêque doit contenir entre 1 et 50 caractères.")
+    @Size(min = 5, max = 50, message = "Le nom de l'Évêque doit contenir entre 5 et 50 caractères.")
     @NotBlank(message = "Le nom de l'Évêque ne doit pas être vide !")
     @Schema(example = "Mgr Andrew NKEA", description = "The name of the diocesan bishop")
     private final String bishop;
 
-    @Size(max = 50, message = "Le nom de l'Évêque émérite doit contenir au max 50 caractères.")
+    @Size(min = 5, max = 50, message = "Le nom de l'Évêque émérite doit contenir entre 5 et 50 caractères.")
     @Schema(example = "Mgr Simon Victor TONYE BAKOT", description = "The name of the emeritus bishop of the diocese (if any)")
     private final String retiredBishop;
 

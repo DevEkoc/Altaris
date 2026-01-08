@@ -23,7 +23,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 @RestController
 @RequestMapping("dioceses")
 @RequiredArgsConstructor
-@Tag(name = "Dioceses", description = "Management of Dioceses")
+@Tag(name = "Dioceses", description = "Dioceses Management")
 public class DioceseController {
     private final DioceseService dioceseService;
 
@@ -46,8 +46,8 @@ public class DioceseController {
     @Operation(
             summary = "List or search dioceses",
             description = "Retrieves all dioceses or filters them using a global search. " +
-                    "The search 'q' matches against: diocese details (name, bishop, type, locality), " +
-                    "the parent province name, chaplain details, and office description."
+                    "The search 'q' matches against: diocese details (name, description, patron saint, locality, bishop, type, retired bishop), " +
+                    "the parent province name, chaplain details (name, surname), and office description."
     )
     @GetMapping(produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<@NonNull List<DioceseListDTO>> findOrListAll(@RequestParam(required = false) String q) {
@@ -84,7 +84,7 @@ public class DioceseController {
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Diocese successfully deleted"),
             @ApiResponse(responseCode = "404", description = "Diocese not found"),
-            @ApiResponse(responseCode = "409", description = "Cannot delete a diocese containing Pastoral Zones")
+            @ApiResponse(responseCode = "409", description = "Conflict: Cannot delete a diocese that contains Pastoral Zones")
     })
     @DeleteMapping(path = "id/{id}")
     public ResponseEntity<@NonNull Void> delete(@PathVariable int id) {

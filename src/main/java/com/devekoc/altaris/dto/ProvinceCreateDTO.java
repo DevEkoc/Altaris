@@ -11,12 +11,12 @@ import org.springframework.web.multipart.MultipartFile;
 @Schema(description = "Data required to create or update an Ecclesiastical Province")
 public class ProvinceCreateDTO extends EcclesiasticalUnitCreateDTO{
 
-    @Size(min = 1, max = 50, message = "Le siège de la Province doit contenir entre 1 et 50 caractères.")
+    @Size(min = 5, max = 50, message = "Le siège de la Province doit contenir entre 5 et 50 caractères.")
     @NotBlank(message = "Le siège de la Province ne doit pas être vide !")
     @Schema(example = "Bamenda", description = "The official seat/headquarters of the province")
     private String headquarter;
 
-    @Size(min = 1, max = 50, message = "Le nom de l'Archevêque de la Province doit contenir entre 1 et 50 caractères.")
+    @Size(min = 5, max = 50, message = "Le nom de l'Archevêque de la Province doit contenir entre 5 et 50 caractères.")
     @NotBlank(message = "Le nom de l'Archevêque de la Province ne doit pas être vide !")
     @Schema(example = "Mgr Jean Mbarga", description = "Name of the Metropolitan Archbishop of the province")
     private String archbishop;

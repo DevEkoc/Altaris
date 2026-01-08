@@ -1,6 +1,7 @@
 package com.devekoc.altaris.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -11,15 +12,16 @@ import org.springframework.web.multipart.MultipartFile;
 @Schema(description = "Base schema for creating any ecclesiastical unit")
 public abstract class EcclesiasticalUnitCreateDTO{
     @NotBlank(message = "Le nom de l'unité ne doit pas être vide !")
-    @Size(min = 1, max = 50, message = "Le nom doit contenir entre 1 et 50 caractères.")
+    @Size(min = 5, max = 50, message = "Le nom doit contenir entre 5 et 50 caractères.")
     @Schema(example = "Province of Yaoundé", description = "Unique name of the unit")
     private String name;
 
     @NotBlank(message = "La description ne doit pas être vide !")
-    @Schema(example = "Comprising 7 dioceses, this province extends across the Center and South regions of Cameroon, covering all of their departments except Nyong-Ekélé.", description = "Detailed description of the unit")
+    @Size(min = 10, max = 2000, message = "La description doit contenir entre 10 et 2000 caractères.")
+    @Schema(type = "string", format = "text", minLength = 10, maxLength = 2000, example = "Comprising 7 dioceses, this province extends across the Center and South regions of Cameroon, covering all of their departments except Nyong-Ekélé.", description = "Detailed description of the unit")
     private String description;
 
-    @Size(min = 1, max = 50, message = "Le nom du Saint Patron doit contenir entre 1 et 50 caractères.")
+    @Size(min = 5, max = 50, message = "Le nom du Saint Patron doit contenir entre 5 et 50 caractères.")
     @Schema(example = "Saint Therese", description = "Patron saint of the unit")
     private String saintPatron;
 

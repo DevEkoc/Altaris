@@ -10,6 +10,6 @@ public record ChaplainListDTO(
         @Schema(example = "10") Integer id,
         @Schema(example = "Emmanuel") String name,
         @Schema(example = "Abena") String surname,
-        @Schema(example = "EVEQUE", allowableValues = {"DIACRE", "PRETRE", "EVEQUE"})@Enumerated(EnumType.STRING) PriestlyRank priestlyRank,
+        @Schema(example = "EVEQUE")@Enumerated(EnumType.STRING) PriestlyRank priestlyRank,
         @Schema(example = "690123456") String phone
 ) {}
