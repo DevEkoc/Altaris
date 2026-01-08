@@ -1,8 +1,10 @@
 package com.devekoc.altaris.dto;
 
 import com.devekoc.altaris.enumerations.ParishType;
+import com.devekoc.altaris.validation.NoEcclesiasticalTitle;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,7 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ParishCreateDTO extends EcclesiasticalUnitCreateDTO {
     @Size(min = 5, max = 50, message = "Le nom du Curé doit contenir entre 5 et 50 caractères.")
     @NotBlank(message = "Le nom du Curé ne doit pas être vide !")
-    @Schema(example = "Abbé Marc Ndzana", description = "Current Parish Priest (Curé)")
+    @Schema(example = "Marc Ndzana", description = "Current Parish Priest (Curé)")
+    @NoEcclesiasticalTitle
     private final String priest;
 
     @Enumerated(EnumType.STRING)

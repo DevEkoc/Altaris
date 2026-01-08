@@ -9,6 +9,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "affectation")
 @Getter @Setter
@@ -21,12 +23,12 @@ public class Assignment {
 
     @Column(name = "poste")
     @NotBlank(message = "Le poste ne doit pas être vide !")
-    @Size(min = 1, max = 50, message = "Le poste doit contenir entre 1 et 50 caractères.")
+    @Size(min = 5, max = 50, message = "Le poste doit contenir entre 5 et 50 caractères.")
     private String position;
 
     @Column(columnDefinition = "TEXT")
     @NotBlank(message = "La description ne doit pas être vide !")
-    private String missions;
+    private List<String> missions;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @NotNull(message = "Le servant ne doit pas être vide !")

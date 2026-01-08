@@ -1,8 +1,10 @@
 package com.devekoc.altaris.dto;
 
 import com.devekoc.altaris.enumerations.DioceseType;
+import com.devekoc.altaris.validation.NoEcclesiasticalTitle;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,11 +16,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class DioceseCreateDTO extends EcclesiasticalUnitCreateDTO {
     @Size(min = 5, max = 50, message = "Le nom de l'Évêque doit contenir entre 5 et 50 caractères.")
     @NotBlank(message = "Le nom de l'Évêque ne doit pas être vide !")
-    @Schema(example = "Mgr Andrew NKEA", description = "The name of the diocesan bishop")
+    @Schema(example = "Andrew NKEA", description = "The name of the diocesan bishop")
+    @NoEcclesiasticalTitle
     private final String bishop;
 
     @Size(min = 5, max = 50, message = "Le nom de l'Évêque émérite doit contenir entre 5 et 50 caractères.")
-    @Schema(example = "Mgr Simon Victor TONYE BAKOT", description = "The name of the emeritus bishop of the diocese (if any)")
+    @Schema(example = "Simon Victor TONYE BAKOT", description = "The name of the emeritus bishop of the diocese (if any)")
+    @NoEcclesiasticalTitle
     private final String retiredBishop;
 
     @Enumerated(EnumType.STRING)

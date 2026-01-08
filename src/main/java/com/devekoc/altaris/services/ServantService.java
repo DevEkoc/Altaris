@@ -2,8 +2,8 @@ package com.devekoc.altaris.services;
 
 import com.devekoc.altaris.dto.ServantCreateDTO;
 import com.devekoc.altaris.dto.ServantListDTO;
-import com.devekoc.altaris.entities.Servant;
 import com.devekoc.altaris.entities.Parish;
+import com.devekoc.altaris.entities.Servant;
 import com.devekoc.altaris.mappers.ServantMapper;
 import com.devekoc.altaris.medias.MediaService;
 import com.devekoc.altaris.repositories.ServantRepository;
@@ -110,7 +110,7 @@ public class ServantService {
         return serialNumber + "%03d".formatted(id);
     }
 
-    private Servant findByIdOrThrow(int id) {
+    public Servant findByIdOrThrow(int id) {
         return servantRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
                         String.format("%s introuvable avec l'ID '%d' !", entityLabel(), id)

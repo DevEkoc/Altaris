@@ -29,8 +29,4 @@ public class Locality {
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Le type de la localité ne doit pas être vide !")
     private LocalityType localityType;
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "idUnite")
-//    private EcclesiasticalUnit ecclesiasticalUnit;
 }

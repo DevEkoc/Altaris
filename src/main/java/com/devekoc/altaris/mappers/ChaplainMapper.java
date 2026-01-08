@@ -6,7 +6,7 @@ import com.devekoc.altaris.entities.Chaplain;
 
 public final class ChaplainMapper {
 
-    public static Chaplain fronCreateDTO (ChaplainCreateDTO dto, Chaplain chaplain) {
+    public static Chaplain fromCreateDTO (ChaplainCreateDTO dto, Chaplain chaplain) {
         chaplain.setName(dto.name());
         chaplain.setSurname(dto.surname());
         chaplain.setPriestlyRank(dto.priestlyRank());
@@ -15,7 +15,9 @@ public final class ChaplainMapper {
     }
 
     public static ChaplainListDTO toListDTO (Chaplain chaplain) {
+        // Le Chaplain null est autorisé lors de la création d'une unité
         if (chaplain == null) return null;
+
         return new ChaplainListDTO(
             chaplain.getId(),
             chaplain.getName(),

@@ -1,5 +1,6 @@
 package com.devekoc.altaris.dto;
 
+import com.devekoc.altaris.validation.NoEcclesiasticalTitle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class ZoneCreateDTO extends EcclesiasticalUnitCreateDTO {
     @Size(min = 5, max = 50, message = "Le nom du Vicaire Episcopal doit contenir entre 5 et 50 caractères.")
     @NotBlank(message = "Le nom du Vicaire Episcopal ne doit pas être vide !")
-    @Schema(example = "Abbé Jean-Pierre", description = "The priest appointed as Episcopal Vicar for this zone")
+    @Schema(example = "Jean-Pierre", description = "The priest appointed as Episcopal Vicar for this zone")
+    @NoEcclesiasticalTitle
     private final String episcopalVicar;
 
     @NotNull(message = "L'ID du Diocèse ne doit pas être null !")

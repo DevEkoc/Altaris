@@ -1,5 +1,6 @@
 package com.devekoc.altaris.dto;
 
+import com.devekoc.altaris.validation.NoEcclesiasticalTitle;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -18,7 +19,8 @@ public class ProvinceCreateDTO extends EcclesiasticalUnitCreateDTO{
 
     @Size(min = 5, max = 50, message = "Le nom de l'Archevêque de la Province doit contenir entre 5 et 50 caractères.")
     @NotBlank(message = "Le nom de l'Archevêque de la Province ne doit pas être vide !")
-    @Schema(example = "Mgr Jean Mbarga", description = "Name of the Metropolitan Archbishop of the province")
+    @Schema(example = "Jean Mbarga", description = "Name of the Metropolitan Archbishop of the province")
+    @NoEcclesiasticalTitle
     private String archbishop;
 
     public ProvinceCreateDTO (
