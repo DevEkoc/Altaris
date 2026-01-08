@@ -151,7 +151,7 @@ class DioceseControllerTest {
         mockMvc.perform(multipart("/dioceses/id/1")
                         .file(image)
                         .param("name", "Diocèse modifié")
-                        .param("description", "Desc")
+                        .param("description", "Description détaillée")
                         .param("bishop", "Mgr Y")
                         .param("type", "SUFFRAGANT")
                         .param("provinceId", "1")

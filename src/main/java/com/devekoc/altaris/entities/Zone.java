@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,5 +29,5 @@ public class Zone extends EcclesiasticalUnit{
 
     @OneToMany(mappedBy = "zone", fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<Parish> parishList;
+    private List<Parish> parishList = new ArrayList<>();
 }

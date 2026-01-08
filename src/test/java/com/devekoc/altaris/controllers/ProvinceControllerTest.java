@@ -56,7 +56,7 @@ class ProvinceControllerTest {
         mockMvc.perform(multipart("/provinces")
                         .file(image)
                         .param("name", "Centre")
-                        .param("description", "Desc")
+                        .param("description", "Description détaillée")
                         .param("headquarter", "Yaoundé")
                         .param("archbishop", "Mgr X")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -175,7 +175,7 @@ class ProvinceControllerTest {
         mockMvc.perform(multipart("/provinces/id/1")
                         .file(image)
                         .param("name", "Centre")
-                        .param("description", "Desc")
+                        .param("description", "Description détaillée")
                         .param("headquarter", "Yaoundé")
                         .param("archbishop", "Mgr X")
                         .with(req -> {
