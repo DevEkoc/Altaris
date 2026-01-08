@@ -20,11 +20,11 @@ public final class ProvinceMapper extends EcclesiasticalUnitMapper {
                 province.getDescription(),
                 province.getSaintPatron(),
                 province.getImage(),
-                province.getHeadquarter(),
-                province.getArchbishop(),
                 province.getLocality(),
                 ChaplainMapper.toListDTO(province.getChaplain()),
-                OfficeMapper.toListDTO(province.getOffice())
+                OfficeMapper.toListDTO(province.getOffice()),
+                province.getHeadquarter(),
+                province.getArchbishop()
         );
     }
 }

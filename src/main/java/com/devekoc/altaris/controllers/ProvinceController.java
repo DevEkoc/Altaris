@@ -83,7 +83,8 @@ public class ProvinceController {
     @Operation(summary = "Delete a province", description = "Removes a province and its associated image from the system.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Province deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Province not found")
+            @ApiResponse(responseCode = "404", description = "Province not found"),
+            @ApiResponse(responseCode = "409", description = "Cannot delete a province containing Dioceses")
     })
     @DeleteMapping(path = "id/{id}")
     public ResponseEntity<@NonNull Void> delete(@PathVariable int id) {

@@ -38,10 +38,16 @@ class ProvinceControllerTest {
         );
 
         ProvinceListDTO response = new ProvinceListDTO(
-                1, "Centre", "Desc", null,
-                "img.png", "Yaoundé", "Mgr X",
+                1,
                 "Centre",
-                null, null
+                "Desc",
+                null,
+                "img.png",
+                "Centre",
+                null,
+                null,
+                "Yaoundé",
+                "Mgr X"
         );
 
         when(provinceService.create(any()))
@@ -66,8 +72,18 @@ class ProvinceControllerTest {
     void listAll_shouldReturn200() throws Exception {
         when(provinceService.listAll())
                 .thenReturn(List.of(
-                        new ProvinceListDTO(1, "Centre", "Desc", null,
-                                null, "Yaoundé", "Mgr X", null, null, null)
+                        new ProvinceListDTO(
+                                1,
+                                "Centre",
+                                "Desc",
+                                null,
+                                "img.png",
+                                "Centre",
+                                null,
+                                null,
+                                "Yaoundé",
+                                "Mgr X"
+                        )
                 ));
 
         mockMvc.perform(get("/provinces"))
@@ -81,9 +97,18 @@ class ProvinceControllerTest {
     void findById_shouldReturn200() throws Exception {
         when(provinceService.findById(1))
                 .thenReturn(new ProvinceListDTO(
-                        1, "Centre", "Desc", null,
-                        null, "Yaoundé", "Mgr X", null, null, null
-                ));
+                        1,
+                        "Centre",
+                        "Desc",
+                        null,
+                        "img.png",
+                        "Centre",
+                        null,
+                        null,
+                        "Yaoundé",
+                        "Mgr X"
+                )
+                );
 
         mockMvc.perform(get("/provinces/id/1"))
                 .andExpect(status().isOk())
@@ -104,8 +129,18 @@ class ProvinceControllerTest {
     void search_shouldReturnList() throws Exception {
         when(provinceService.find("bam"))
                 .thenReturn(List.of(
-                        new ProvinceListDTO(1, "Bamenda", "Desc", null,
-                                null, "Bamenda", "Mgr Y", null, null, null)
+                        new ProvinceListDTO(
+                                1,
+                                "Bamenda",
+                                "Desc",
+                                null,
+                                "img.png",
+                                "Bamenda",
+                                null,
+                                null,
+                                "Bamenda",
+                                "Mgr Y"
+                        )
                 ));
 
         mockMvc.perform(get("/provinces").param("q", "bam"))
@@ -122,9 +157,16 @@ class ProvinceControllerTest {
         );
 
         ProvinceListDTO updated = new ProvinceListDTO(
-                1, "Centre", "Desc", null,
-                "new.png", "Yaoundé", "Mgr X",
-                null, null, null
+                1,
+                "Centre",
+                "Desc",
+                null,
+                "new.png",
+                "Centre",
+                null,
+                null,
+                "Yaoundé",
+                "Mgr X"
         );
 
         when(provinceService.update(eq(1), any()))
