@@ -1,7 +1,7 @@
 package com.devekoc.altaris.controllers;
 
-import com.devekoc.altaris.dto.OfficeCreateDTO;
-import com.devekoc.altaris.dto.OfficeListDTO;
+import com.devekoc.altaris.dto.offices.OfficeCreateDTO;
+import com.devekoc.altaris.dto.offices.OfficeListDTO;
 import com.devekoc.altaris.services.OfficeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,11 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequestMapping("offices")
@@ -35,8 +33,8 @@ public class OfficeController {
             @ApiResponse(responseCode = "201", description = "Office successfully created"),
             @ApiResponse(responseCode = "400", description = "Invalid input data (check description or specific constraints)")
     })
-    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<@NonNull OfficeListDTO> create(@Valid @ModelAttribute OfficeCreateDTO dto) throws IOException {
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<@NonNull OfficeListDTO> create(@Valid @RequestBody OfficeCreateDTO dto) {
         OfficeListDTO created = officeService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -69,8 +67,8 @@ public class OfficeController {
     }
 
     @Operation(summary = "Update office info", description = "Updates the description or other details of an existing office.")
-    @PutMapping(path = "id/{id}", consumes = MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<@NonNull OfficeListDTO> update(@PathVariable int id, @Valid @ModelAttribute OfficeCreateDTO dto) throws IOException {
+    @PutMapping(path = "id/{id}", consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<@NonNull OfficeListDTO> update(@PathVariable int id, @Valid @RequestBody OfficeCreateDTO dto) {
         OfficeListDTO updated = officeService.update(id, dto);
         return ResponseEntity.ok(updated);
     }

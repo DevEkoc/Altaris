@@ -1,7 +1,8 @@
 package com.devekoc.altaris.controllers;
 
-import com.devekoc.altaris.dto.ParishCreateDTO;
-import com.devekoc.altaris.dto.ParishListDTO;
+import com.devekoc.altaris.dto.parishes.ParishCreateDTO;
+import com.devekoc.altaris.dto.parishes.ParishDetailsDTO;
+import com.devekoc.altaris.dto.parishes.ParishListDTO;
 import com.devekoc.altaris.services.ParishService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,8 +67,8 @@ public class ParishController {
             @ApiResponse(responseCode = "404", description = "Parish not found")
     })
     @GetMapping(path = "id/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<@NonNull ParishListDTO> findById(@PathVariable int id) {
-        ParishListDTO found = parishService.findById(id);
+    public ResponseEntity<@NonNull ParishDetailsDTO> findById(@PathVariable int id) {
+        ParishDetailsDTO found = parishService.findById(id);
         return (found == null)
                 ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(found);

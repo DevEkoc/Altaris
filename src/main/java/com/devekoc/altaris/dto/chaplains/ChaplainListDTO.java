@@ -1,0 +1,15 @@
+package com.devekoc.altaris.dto.chaplains;
+
+import com.devekoc.altaris.enumerations.PriestlyRank;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+
+@Schema(description = "Summary information of a Chaplain")
+public record ChaplainListDTO(
+        @Schema(example = "10") Integer id,
+        @Schema(example = "Abena") String name,
+        @Schema(example = "Emmanuel") String surname,
+        @Schema(example = "EVEQUE")@Enumerated(EnumType.STRING) PriestlyRank priestlyRank,
+        @Schema(example = "690123456") String phone
+) {}

@@ -1,9 +1,9 @@
 package com.devekoc.altaris.mappers;
 
-import com.devekoc.altaris.dto.ServantCreateDTO;
-import com.devekoc.altaris.dto.ServantListDTO;
-import com.devekoc.altaris.entities.Servant;
+import com.devekoc.altaris.dto.servants.ServantCreateDTO;
+import com.devekoc.altaris.dto.servants.ServantListDTO;
 import com.devekoc.altaris.entities.Parish;
+import com.devekoc.altaris.entities.Servant;
 
 public final class ServantMapper {
     public static Servant fromCreateDTO (ServantCreateDTO dto, Servant servant, Parish parish, String imagePath) {
@@ -31,6 +31,7 @@ public final class ServantMapper {
                 servant.getGrade(),
                 servant.getPhone(),
                 servant.getImage(),
+                servant.getParish().getId(),
                 servant.getParish().getName()
         );
     }

@@ -1,11 +1,12 @@
 package com.devekoc.altaris.services;
 
-import com.devekoc.altaris.dto.ParishCreateDTO;
-import com.devekoc.altaris.dto.ParishListDTO;
+import com.devekoc.altaris.dto.offices.OfficeListDTO;
+import com.devekoc.altaris.dto.parishes.ParishCreateDTO;
+import com.devekoc.altaris.dto.parishes.ParishDetailsDTO;
+import com.devekoc.altaris.dto.parishes.ParishListDTO;
 import com.devekoc.altaris.entities.Chaplain;
-import com.devekoc.altaris.entities.Zone;
-import com.devekoc.altaris.entities.Office;
 import com.devekoc.altaris.entities.Parish;
+import com.devekoc.altaris.entities.Zone;
 import com.devekoc.altaris.mappers.ParishMapper;
 import com.devekoc.altaris.medias.MediaService;
 import com.devekoc.altaris.repositories.ChaplainRepository;
@@ -27,17 +28,20 @@ import java.util.Objects;
 public class ParishService extends EcclesiasticalUnitService<Parish> {
     private final ParishRepository parishRepository;
     private final ZoneService zoneService;
+    private final OfficeService officeService;
 
     public ParishService(
             ParishRepository parishRepository,
             ZoneService zoneService,
             ChaplainRepository chaplainRepository,
             OfficeRepository officeRepository,
-            MediaService mediaService
+            MediaService mediaService,
+            OfficeService officeService
     ) {
         super(parishRepository, mediaService, chaplainRepository, officeRepository);
         this.parishRepository = parishRepository;
         this.zoneService = zoneService;
+        this.officeService = officeService;
     }
 
     @Override
@@ -52,21 +56,29 @@ public class ParishService extends EcclesiasticalUnitService<Parish> {
 
     public ParishListDTO create(ParishCreateDTO dto) throws IOException {
         validateUniqueName(dto.getName());
-        Chaplain chaplain = getChaplainOrThrow(dto.getChaplainId());
-        Office office = getOfficeOrThrow(dto.getOfficeId());
+        Chaplain chaplain = (dto.getChaplainId() == null)
+                ? null
+                : getChaplainOrThrow(dto.getChaplainId());
+
         String imagePath = mediaService.saveImage(dto.getImage(), imageSubdirectory());
         Zone zone = zoneService.findByIdOrThrow(dto.getZoneId());
 
-        Parish parish = ParishMapper.fromCreateDTO(dto, new Parish(), zone, chaplain, office, imagePath);
+        Parish parish = ParishMapper.fromCreateDTO(dto, new Parish(), zone, chaplain, imagePath);
         Parish saved = parishRepository.save(parish);
 
         log.info("{} : {} (ID : {}) créée avec succès !", entityLabel(), saved.getName(), saved.getId());
         return ParishMapper.toListDTO(saved);
     }
 
-    public ParishListDTO findById(int id) {
+    public ParishDetailsDTO findById(int id) {
         Parish found = findByIdOrThrow(id);
-        return ParishMapper.toListDTO(found);
+        OfficeListDTO officeListDTO = null;
+
+        if (officeService.existsByActiveUnitId(found.getId())) {
+            officeListDTO = officeService.findByUnitId(found.getId());
+        }
+
+        return ParishMapper.toDetailsDTO(found, officeListDTO);
     }
 
     public List<ParishListDTO> find(String query) {
@@ -86,22 +98,18 @@ public class ParishService extends EcclesiasticalUnitService<Parish> {
 
     public ParishListDTO update(int id, ParishCreateDTO dto) throws IOException {
         Parish existing = findByIdOrThrow(id);
-        if (!existing.getName().equals(dto.getName())) validateUniqueName(dto.getName());
+        checkNewNameValidity(existing.getName(), dto.getName());
 
         String oldImagePath = existing.getImage();
         String newImagePath = handleImageUpdate(dto.getImage(), oldImagePath);
 
-        Chaplain chaplain = (existing.getChaplain() == null || !existing.getChaplain().getId().equals(dto.getChaplainId()))
-                ? getChaplainOrThrow(dto.getChaplainId())
-                : existing.getChaplain();
-        Office office = (existing.getOffice() == null || !existing.getOffice().getId().equals(dto.getChaplainId()))
-                ? getOfficeOrThrow(dto.getOfficeId())
-                : existing.getOffice();
+        Chaplain chaplain = resolveChaplain(existing.getChaplain(), dto.getChaplainId());
+
         Zone zone = (!existing.getZone().getId().equals(dto.getZoneId()))
                 ? zoneService.findByIdOrThrow(dto.getZoneId())
                 : existing.getZone();
 
-        Parish parish = ParishMapper.fromCreateDTO(dto, existing, zone, chaplain, office, newImagePath);
+        Parish parish = ParishMapper.fromCreateDTO(dto, existing, zone, chaplain, newImagePath);
         Parish saved = parishRepository.save(parish);
 
         if (!Objects.equals(newImagePath, oldImagePath)) {

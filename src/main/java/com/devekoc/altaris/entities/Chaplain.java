@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "aumonier")
+@Table
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Chaplain {
@@ -25,17 +25,18 @@ public class Chaplain {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "nomAumonier")
+    @Column
     @NotBlank(message = "Le nom de l'Aumônier ne doit pas être vide !")
     @Size(min = 5, max = 50, message = "Le nom de l'Aumônier doit contenir entre 5 et 50 caractères.")
     private String name;
 
-    @Column(name = "prenomAumonier")
+    @Column
     @Size(max = 50, message = "Le prénom nom de l'Aumônier doit contenir au max 50 caractères.")
     private String surname;
 
-    @Column(name = "niveauSacerdotal")
+    @Column
     @NotNull(message = "Le niveau sacerdotal de l'Aumônier ne doit pas être vide !")
+    @Enumerated(EnumType.STRING)
     private PriestlyRank priestlyRank;
 
     @Column

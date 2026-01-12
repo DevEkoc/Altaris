@@ -1,7 +1,7 @@
 package com.devekoc.altaris.services;
 
-import com.devekoc.altaris.dto.ChaplainCreateDTO;
-import com.devekoc.altaris.dto.ChaplainListDTO;
+import com.devekoc.altaris.dto.chaplains.ChaplainCreateDTO;
+import com.devekoc.altaris.dto.chaplains.ChaplainListDTO;
 import com.devekoc.altaris.entities.Chaplain;
 import com.devekoc.altaris.mappers.ChaplainMapper;
 import com.devekoc.altaris.repositories.ChaplainRepository;
@@ -14,7 +14,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -27,7 +26,7 @@ public class ChaplainService {
         return Chaplain.class.getSimpleName().toUpperCase();
     }
 
-    public ChaplainListDTO create(ChaplainCreateDTO dto) throws IOException {
+    public ChaplainListDTO create(ChaplainCreateDTO dto) {
         Chaplain chaplain = ChaplainMapper.fromCreateDTO(dto, new Chaplain());
         Chaplain saved = chaplainRepository.save(chaplain);
 
@@ -55,7 +54,7 @@ public class ChaplainService {
                 .toList();
     }
 
-    public ChaplainListDTO update(int id, ChaplainCreateDTO dto) throws IOException {
+    public ChaplainListDTO update(int id, ChaplainCreateDTO dto) {
         Chaplain chaplain = ChaplainMapper.fromCreateDTO(dto, findByIdOrThrow(id));
         Chaplain saved = chaplainRepository.save(chaplain);
 

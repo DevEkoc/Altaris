@@ -1,7 +1,7 @@
 package com.devekoc.altaris.controllers;
 
-import com.devekoc.altaris.dto.ChaplainCreateDTO;
-import com.devekoc.altaris.dto.ChaplainListDTO;
+import com.devekoc.altaris.dto.chaplains.ChaplainCreateDTO;
+import com.devekoc.altaris.dto.chaplains.ChaplainListDTO;
 import com.devekoc.altaris.services.ChaplainService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -14,11 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
 @RequestMapping("chaplains")
@@ -35,8 +33,8 @@ public class ChaplainController {
             @ApiResponse(responseCode = "201", description = "Chaplain successfully registered"),
             @ApiResponse(responseCode = "400", description = "Invalid input data (e.g., name or phone validation failed)")
     })
-    @PostMapping(consumes = MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<@NonNull ChaplainListDTO> create(@Valid @ModelAttribute ChaplainCreateDTO dto) throws IOException {
+    @PostMapping(consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<@NonNull ChaplainListDTO> create(@Valid @RequestBody ChaplainCreateDTO dto) {
         ChaplainListDTO created = chaplainService.create(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
@@ -66,8 +64,8 @@ public class ChaplainController {
     }
 
     @Operation(summary = "Update chaplain info", description = "Updates personal and contact information for an existing chaplain.")
-    @PutMapping(path = "id/{id}", consumes = MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<@NonNull ChaplainListDTO> update(@PathVariable int id, @Valid @ModelAttribute ChaplainCreateDTO dto) throws IOException {
+    @PutMapping(path = "id/{id}", consumes = APPLICATION_JSON_VALUE)
+    public ResponseEntity<@NonNull ChaplainListDTO> update(@PathVariable int id, @Valid @RequestBody ChaplainCreateDTO dto) {
         ChaplainListDTO updated = chaplainService.update(id, dto);
         return ResponseEntity.ok(updated);
     }

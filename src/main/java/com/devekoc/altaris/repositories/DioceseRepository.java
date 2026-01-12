@@ -4,7 +4,9 @@ import com.devekoc.altaris.entities.Diocese;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface DioceseRepository extends
         JpaRepository<@NonNull Diocese, @NonNull Integer>,
         JpaSpecificationExecutor<@NonNull Diocese>,

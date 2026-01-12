@@ -1,9 +1,10 @@
 package com.devekoc.altaris.services;
 
-import com.devekoc.altaris.dto.ProvinceCreateDTO;
-import com.devekoc.altaris.dto.ProvinceListDTO;
+import com.devekoc.altaris.dto.offices.OfficeListDTO;
+import com.devekoc.altaris.dto.provinces.ProvinceCreateDTO;
+import com.devekoc.altaris.dto.provinces.ProvinceDetailsDTO;
+import com.devekoc.altaris.dto.provinces.ProvinceListDTO;
 import com.devekoc.altaris.entities.Chaplain;
-import com.devekoc.altaris.entities.Office;
 import com.devekoc.altaris.entities.Province;
 import com.devekoc.altaris.mappers.ProvinceMapper;
 import com.devekoc.altaris.medias.MediaService;
@@ -25,15 +26,18 @@ import java.util.Objects;
 @Slf4j
 public class ProvinceService extends EcclesiasticalUnitService<Province> {
     private final ProvinceRepository provinceRepository;
+    private final OfficeService officeService;
 
     public ProvinceService(
             ProvinceRepository provinceRepository,
             ChaplainRepository chaplainRepository,
             OfficeRepository officeRepository,
-            MediaService mediaService
+            MediaService mediaService,
+            OfficeService officeService
     ) {
         super(provinceRepository, mediaService, chaplainRepository, officeRepository);
         this.provinceRepository = provinceRepository;
+        this.officeService = officeService;
     }
 
     @Override
@@ -50,20 +54,28 @@ public class ProvinceService extends EcclesiasticalUnitService<Province> {
 
     public ProvinceListDTO create(ProvinceCreateDTO dto) throws IOException {
         validateUniqueName(dto.getName());
-        Chaplain chaplain = getChaplainOrThrow(dto.getChaplainId());
-        Office office = getOfficeOrThrow(dto.getOfficeId());
+        Chaplain chaplain = (dto.getChaplainId() == null)
+            ? null
+            : getChaplainOrThrow(dto.getChaplainId());
+
         String imagePath = mediaService.saveImage(dto.getImage(), imageSubdirectory());
 
-        Province province = ProvinceMapper.fromCreateDTO(dto, new Province(), chaplain, office, imagePath);
+        Province province = ProvinceMapper.fromCreateDTO(dto, new Province(), chaplain, imagePath);
         Province saved = provinceRepository.save(province);
 
         log.info("{} : {} (ID : {}) créée avec succès !", entityLabel(), saved.getName(), saved.getId());
         return ProvinceMapper.toListDTO(saved);
     }
 
-    public ProvinceListDTO findById(int id) {
+    public ProvinceDetailsDTO findById(int id) {
         Province found = findByIdOrThrow(id);
-        return ProvinceMapper.toListDTO(found);
+        OfficeListDTO officeListDTO = null;
+
+        if (officeService.existsByActiveUnitId(found.getId())) {
+            officeListDTO = officeService.findByUnitId(found.getId());
+        }
+
+        return ProvinceMapper.toDetailsDTO(found, officeListDTO);
     }
 
     public List<ProvinceListDTO> listAll() {
@@ -77,28 +89,21 @@ public class ProvinceService extends EcclesiasticalUnitService<Province> {
         Specification<@NonNull Province> spec = ProvinceSpecification.globalSearch(query);
         return provinceRepository.findAll(spec)
                 .stream()
-                .map(
-                        ProvinceMapper::toListDTO
-                )
+                .map(ProvinceMapper::toListDTO)
                 .toList();
     }
 
     public ProvinceListDTO update(int id, ProvinceCreateDTO dto) throws IOException {
         Province existing = findByIdOrThrow(id);
 
-        if (!existing.getName().equals(dto.getName())) validateUniqueName(dto.getName());
+        checkNewNameValidity(existing.getName(), dto.getName());
 
         String oldImagePath = existing.getImage();
         String newImagePath = handleImageUpdate(dto.getImage(), oldImagePath);
 
-        Chaplain chaplain = (existing.getChaplain() == null || !existing.getChaplain().getId().equals(dto.getChaplainId()))
-                ? getChaplainOrThrow(dto.getChaplainId())
-                : existing.getChaplain();
-        Office office = (existing.getOffice() == null || !existing.getOffice().getId().equals(dto.getChaplainId()))
-                ? getOfficeOrThrow(dto.getOfficeId())
-                : existing.getOffice();
+        Chaplain chaplain = resolveChaplain(existing.getChaplain(), dto.getChaplainId());
 
-        ProvinceMapper.fromCreateDTO(dto, existing, chaplain, office, newImagePath);
+        ProvinceMapper.fromCreateDTO(dto, existing, chaplain, newImagePath);
         Province saved = provinceRepository.save(existing);
 
         if (!Objects.equals(newImagePath, oldImagePath)) {

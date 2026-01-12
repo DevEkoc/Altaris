@@ -1,7 +1,7 @@
 package com.devekoc.altaris.controllers;
 
-import com.devekoc.altaris.dto.ServantCreateDTO;
-import com.devekoc.altaris.dto.ServantListDTO;
+import com.devekoc.altaris.dto.servants.ServantCreateDTO;
+import com.devekoc.altaris.dto.servants.ServantListDTO;
 import com.devekoc.altaris.services.ServantService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -1,7 +1,7 @@
 package com.devekoc.altaris.mappers;
 
-import com.devekoc.altaris.dto.ChaplainCreateDTO;
-import com.devekoc.altaris.dto.ChaplainListDTO;
+import com.devekoc.altaris.dto.chaplains.ChaplainCreateDTO;
+import com.devekoc.altaris.dto.chaplains.ChaplainListDTO;
 import com.devekoc.altaris.entities.Chaplain;
 
 public final class ChaplainMapper {

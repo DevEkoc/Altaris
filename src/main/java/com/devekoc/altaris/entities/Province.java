@@ -13,17 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "province")
+@Table
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Province extends EcclesiasticalUnit {
 
-    @Column(name = "siege")
+    @Column
     @Size(min = 1, max = 50, message = "Le siège de la Province doit contenir entre 1 et 50 caractères.")
     @NotBlank(message = "Le siège de la Province ne doit pas être vide !")
     private String headquarter;
 
-    @Column(name = "archeveque")
+    @Column
     @Size(min = 1, max = 50, message = "Le nom de l'Archevêque de la Province doit contenir entre 1 et 50 caractères.")
     @NotBlank(message = "Le nom de l'Archevêque de la Province ne doit pas être vide !")
     private String archbishop;

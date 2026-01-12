@@ -1,7 +1,8 @@
 package com.devekoc.altaris.controllers;
 
-import com.devekoc.altaris.dto.ZoneCreateDTO;
-import com.devekoc.altaris.dto.ZoneListDTO;
+import com.devekoc.altaris.dto.zones.ZoneCreateDTO;
+import com.devekoc.altaris.dto.zones.ZoneDetailsDTO;
+import com.devekoc.altaris.dto.zones.ZoneListDTO;
 import com.devekoc.altaris.services.ZoneService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,8 +67,8 @@ public class ZoneController {
             @ApiResponse(responseCode = "404", description = "Zone not found")
     })
     @GetMapping(path = "id/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<@NonNull ZoneListDTO> findById(@PathVariable int id) {
-        ZoneListDTO found = zoneService.findById(id);
+    public ResponseEntity<@NonNull ZoneDetailsDTO> findById(@PathVariable int id) {
+        ZoneDetailsDTO found = zoneService.findById(id);
         return (found == null)
                 ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(found);

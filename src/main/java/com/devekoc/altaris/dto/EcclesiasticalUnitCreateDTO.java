@@ -20,7 +20,7 @@ public abstract class EcclesiasticalUnitCreateDTO{
     @Schema(type = "string", format = "text", minLength = 10, maxLength = 2000, example = "Comprising 7 dioceses, this province extends across the Center and South regions of Cameroon, covering all of their departments except Nyong-Ekélé.", description = "Detailed description of the unit")
     private String description;
 
-    @Size(min = 5, max = 50, message = "Le nom du Saint Patron doit contenir entre 5 et 50 caractères.")
+    @Size(max = 50, message = "Le nom du Saint Patron doit contenir au max 50 caractères.")
     @Schema(example = "Saint Therese", description = "Patron saint of the unit")
     private String saintPatron;
 
@@ -33,17 +33,13 @@ public abstract class EcclesiasticalUnitCreateDTO{
     @Schema(example = "1", description = "ID of the assigned chaplain")
     private Integer chaplainId;
 
-    @Schema(example = "2", description = "ID of the Altar Servants' Office that administers the unit")
-    private Integer officeId;
-
     protected EcclesiasticalUnitCreateDTO(
             String name,
             String description,
             String saintPatron,
             String locality,
             MultipartFile image,
-            Integer chaplainId,
-            Integer officeId
+            Integer chaplainId
     ) {
         this.name = name;
         this.description = description;
@@ -51,6 +47,5 @@ public abstract class EcclesiasticalUnitCreateDTO{
         this.locality = locality;
         this.image = image;
         this.chaplainId = chaplainId;
-        this.officeId = officeId;
     }
 }

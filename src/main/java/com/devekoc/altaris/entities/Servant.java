@@ -15,7 +15,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "servant")
+@Table
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Servant {
@@ -24,28 +24,28 @@ public class Servant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "matricule", unique = true)
+    @Column(unique = true)
     private String serialNumber;
 
-    @Column(name = "nom")
+    @Column
     @Size(min = 1, max = 50, message = "Le nom du Servant doit contenir entre 1 et 50 caractères.")
     @NotBlank(message = "Le nom du Servant ne doit pas être vide !")
     private String name;
 
-    @Column(name = "prenom")
+    @Column
     @Size(max = 50, message = "Le prénom du Servant doit contenir au max 50 caractères.")
     private String surname;
 
-    @Column(name = "dateNaissance")
+    @Column
     @NotNull(message = "La date de naissance ne doit pas être vide !")
     private LocalDate birthDate;
 
-    @Column(name = "sexe")
+    @Column
     @NotNull(message = "Le sexe ne doit pas être vide !")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "dateEntree")
+    @Column
     private LocalDate entryDate;
 
     @Column
@@ -61,6 +61,6 @@ public class Servant {
     private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idParoisse")
+    @JoinColumn
     private Parish parish;
 }

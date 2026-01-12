@@ -12,7 +12,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "affectation")
+@Table
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class Assignment {
@@ -21,13 +21,14 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "poste")
+    @Column
     @NotBlank(message = "Le poste ne doit pas être vide !")
     @Size(min = 5, max = 50, message = "Le poste doit contenir entre 5 et 50 caractères.")
     private String position;
 
     @Column(columnDefinition = "TEXT")
     @NotBlank(message = "La description ne doit pas être vide !")
+//    @Convert(converter = StringListJsonConverter.class)
     private List<String> missions;
 
     @ManyToOne(fetch = FetchType.LAZY)

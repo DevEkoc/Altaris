@@ -31,6 +31,10 @@ public abstract class EcclesiasticalUnitService<T> {
         }
     }
 
+    protected void checkNewNameValidity (String oldName, String newName) {
+        if (!oldName.equals(newName)) validateUniqueName(newName);
+    }
+
     protected T findByIdOrThrow(int id) {
         return repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(
@@ -49,12 +53,25 @@ public abstract class EcclesiasticalUnitService<T> {
         );
     }
 
-    protected Office getOfficeOrThrow(Integer officeId) {
-        if (officeId == null) return null;
+    protected Chaplain resolveChaplain(Chaplain current, Integer newChaplainId) {
+        if (newChaplainId == null) {
+            return null;
+        }
 
-        return officeRepository.findById(officeId).orElseThrow(
+        if (current == null || !current.getId().equals(newChaplainId)) {
+            return getChaplainOrThrow(newChaplainId);
+        }
+
+        return current;
+    }
+
+
+    protected Office getOfficeOrThrow(Integer unitId) {
+        if (unitId == null) return null;
+
+        return officeRepository.findByUnitId(unitId).orElseThrow(
                 () -> new EntityNotFoundException(
-                        String.format("Bureau introuvable avec l'ID '%d' !", officeId)
+                        String.format("Bureau introuvable avec l'ID d'unité '%d' !", unitId)
                 )
         );
     }

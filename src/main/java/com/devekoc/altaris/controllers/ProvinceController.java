@@ -1,7 +1,8 @@
 package com.devekoc.altaris.controllers;
 
-import com.devekoc.altaris.dto.ProvinceCreateDTO;
-import com.devekoc.altaris.dto.ProvinceListDTO;
+import com.devekoc.altaris.dto.provinces.ProvinceCreateDTO;
+import com.devekoc.altaris.dto.provinces.ProvinceDetailsDTO;
+import com.devekoc.altaris.dto.provinces.ProvinceListDTO;
 import com.devekoc.altaris.services.ProvinceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -66,8 +67,8 @@ public class ProvinceController {
             @ApiResponse(responseCode = "404", description = "Province not found")
     })
     @GetMapping(path = "id/{id}", produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<@NonNull ProvinceListDTO> findById(@PathVariable int id) {
-        ProvinceListDTO found = provinceService.findById(id);
+    public ResponseEntity<@NonNull ProvinceDetailsDTO> findById(@PathVariable int id) {
+        ProvinceDetailsDTO found = provinceService.findById(id);
         return (found == null)
                 ? ResponseEntity.notFound().build()
                 : ResponseEntity.ok(found);

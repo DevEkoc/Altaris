@@ -1,7 +1,7 @@
 package com.devekoc.altaris.services;
 
-import com.devekoc.altaris.dto.ServantCreateDTO;
-import com.devekoc.altaris.dto.ServantListDTO;
+import com.devekoc.altaris.dto.servants.ServantCreateDTO;
+import com.devekoc.altaris.dto.servants.ServantListDTO;
 import com.devekoc.altaris.entities.Parish;
 import com.devekoc.altaris.entities.Servant;
 import com.devekoc.altaris.mappers.ServantMapper;

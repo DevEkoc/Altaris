@@ -3,20 +3,23 @@ package com.devekoc.altaris.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Table(name = "unite")
+@Table
 @Inheritance(strategy = InheritanceType.JOINED)
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public abstract class EcclesiasticalUnit {
-    @Column(name = "idUnite")
+    @Column
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
-    @Column(name = "nomUnite")
+    @Column
     @NotBlank(message = "Le nom de l'unité ne doit pas être vide !")
     @Size(min = 1, max = 50, message = "Le nom doit contenir entre 1 et 50 caractères.")
     protected String name;
@@ -35,10 +38,9 @@ public abstract class EcclesiasticalUnit {
     private String locality;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "aumonier")
+    @JoinColumn
     private Chaplain chaplain;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bureau")
-    private Office office;
+//    @OneToOne(mappedBy = "unit")
+//    private Office office;
 }

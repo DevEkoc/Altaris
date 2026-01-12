@@ -15,27 +15,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "diocese")
+@Table
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Diocese extends EcclesiasticalUnit{
 
-    @Column(name = "eveque")
+    @Column
     @Size(min = 1, max = 50, message = "Le nom de l'Évêque doit contenir entre 1 et 50 caractères.")
     @NotBlank(message = "Le nom de l'Évêque ne doit pas être vide !")
     private String bishop;
 
-    @Column(name = "evequeEmerite")
+    @Column
     @Size(max = 50, message = "Le nom de l'Évêque émérite doit contenir au max 50 caractères.")
     private String retiredBishop;
 
-    @Column(name = "type")
+    @Column
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Le type du diocèse ne doit pas être vide !")
     private DioceseType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idProvince")
+    @JoinColumn
     private Province province;
 
     @OneToMany(mappedBy = "diocese", fetch = FetchType.LAZY)
